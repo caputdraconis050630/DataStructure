@@ -46,3 +46,7 @@ public:
         arr[arrSize-1] = 0;
     }
 };
+
+int main(){
+    // pass;
+}
