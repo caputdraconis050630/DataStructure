@@ -1,0 +1,109 @@
+// using stack
+// create stack with Linked List
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Node{
+public:
+    int elem;
+    Node* next;
+    
+
+    Node(int elem){
+        this -> elem = elem;
+        this -> next = NULL;
+    }
+};
+
+class Stack{
+public:
+    Node* head;
+    Node* tail;
+    int n;
+
+    Stack(){
+        this->head = NULL;
+        this->tail = NULL;
+        this-> n = 0;
+    }
+    
+    int size(){
+        return n;
+    }
+    
+    bool empty(){
+        return n==0;
+    }
+    int top(){
+        if(empty()) return -1;
+        return head->elem;
+    }
+    
+    void push(int elem){
+        Node* newNode = new Node(elem);
+        if(empty()){
+            head = tail = newNode;
+            n++;
+        }
+        else{
+            newNode -> next = head;
+            head = newNode;
+            n++;
+        }
+    }
+    
+    int pop(){
+        if(empty()) return -1;
+        else{
+            n--;
+            int temp = head -> elem;
+            head = head -> next;
+            return temp;
+        }
+    }
+};
+
+
+int main(){
+    string input; // 연산식을 입력받은 문자열 변수
+    int t; // 입력받을 수식의 수를 저장할 변수
+    cin>>t; // 수식의 수 입력받음
+    int elem1, elem2;
+    int result;
+    Stack stack;
+    
+    
+    for(int i = 0; i < t; i++){
+        cin >> input; // 연산식 입력
+        for(int j=0;j<input.size();j++){
+            if(input[j]>= '0' && input[j] <= '9'){
+                stack.push(input[j] - '0');
+            }
+            else{ // 연산자가 들어왔을 때
+                int tmp;
+                elem1 = stack.pop();
+                elem2 = stack.pop();
+                if(input[j] == '+'){
+                    tmp = elem1 + elem2;
+                }
+                else if(input[j] == '-'){
+                    tmp = elem2 - elem1;
+                }
+                else if(input[j] == '*'){
+                    tmp = elem1 * elem2;
+                }
+                else{
+                    tmp = 0; // 여기까지 올리가,,
+                }
+                stack.push(tmp);
+            }
+            if(j == input.size()-1){
+                result = stack.pop();
+                cout<<result%10<<endl;
+            }
+        }
+    }
+}
